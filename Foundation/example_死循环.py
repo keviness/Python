@@ -1,6 +1,4 @@
-
-
-
+#coding:UTF-8
 while True:
     try:
         x = int(input("please enter a number:"))
