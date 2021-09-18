@@ -73,6 +73,26 @@ with tqdm(total=200) as pbar:
 100%|████████████████████████████████████████████████████████████████████████████████| 200/200 [00:01<00:00, 98.87it/s]
 ```
 
+```
+
+ 1 from tqdm import trange
+ 2 from random import random, randint
+ 3 from time import sleep
+ 4 with trange(100) as t:
+ 5     for i in t:
+ 6         # Description will be displayed on the left
+ 7         t.set_description('下载速度 %i' % i)
+ 8         # Postfix will be displayed on the right,
+ 9         # formatted automatically based on argument's datatype
+10         t.set_postfix(loss=random(), gen=randint(1,999), str='详细信息',
+11                      lst=[1, 2])
+12         sleep(0.1)
+```
+
+类似显示一个标题和详细信息。
+
+效果：![](https://img2018.cnblogs.com/blog/1324057/201812/1324057-20181211130752937-721230118.png)
+
 ## tqdm 的 write 方法
 
 ```python
