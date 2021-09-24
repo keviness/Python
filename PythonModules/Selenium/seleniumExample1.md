@@ -38,7 +38,6 @@ selenium的一些基本用法：
 
 3.写代码
 
-
 ```
   1 from selenium import webdriver
   2 
@@ -111,21 +110,21 @@ selenium的一些基本用法：
  69                 #当前视频播放结束，点击下一节
  70                 js="document.ElementById('nextBtn').click()"#js脚本
  71                 browser.execute_script(js)
- 72               
+ 72             
  73             time.sleep(10)#10秒检测一次
  74         except:
  75             current_time='00:00'
  76             total_time='00:01'
- 77     
- 78           
- 79       
+ 77   
+ 78         
+ 79     
  80 if __name__=='__main__':
  81   
  82     '''
  83     number=''#手机号码
  84     password=''#密码
  85     key=''#课程名称，可以部分名字
- 86         
+ 86       
  87     '''
  88     login(number,password)
  89     to_course(key)
@@ -151,9 +150,7 @@ selenium的一些基本用法：
 
 这个程序只是做一个简单的演示，并没有做到很全面，但也可以用的。
 
-selenium定位不到元素时会报错，要处理好，否则程序就没用了。元素定位最好使用WebDriverWait的方式，加上异常控制。
-
-网站是会变化的，分析好网站操作基本的过程，基本没有问题了。
+selenium定位不到元素时会报错，要处理好，否则程序就没用了。元素定位最好使用WebDriverWait的方式，加上异常控制。网站是会变化的，分析好网站操作基本的过程，基本没有问题了。
 
 selenium定位不到元素有以下几种情况
 
