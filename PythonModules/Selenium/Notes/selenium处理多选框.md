@@ -1,4 +1,4 @@
-# [Selenium(七)：选择框(radio框、checkbox框、select框)](https://www.cnblogs.com/liuhui0308/p/11936029.html)
+# [Selenium：选择框(radio框、checkbox框、select框)](https://www.cnblogs.com/liuhui0308/p/11936029.html)
 
 **阅读目录(Content)**
 
