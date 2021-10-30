@@ -55,4 +55,3 @@ def main(file):
 if __name__ == '__main__':
     file = path + 'Herbs.xlsx'
     main(file)
-    
