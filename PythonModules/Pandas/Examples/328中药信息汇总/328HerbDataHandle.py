@@ -21,8 +21,6 @@ def getHerbFileNames():
     dataFrame.to_excel(outputPath+'402HerbTargetsInfo.xlsx')
     print('write to excel successfully!')
 
-
-
 def unstackHerbData(HerbFileName):
     herbDataFrame = pd.read_excel(HerbFileName)
     del herbDataFrame['Unnamed: 0']
