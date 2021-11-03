@@ -1,4 +1,4 @@
-目录
+# 目录
 
 1.dataframe行列筛选
 
@@ -18,8 +18,11 @@
 
 9.跨表update
 
-1.dataframe行列筛选
-(1)df[] 按索引标签和位置序号选取行或列
+## 1.dataframe行列筛选
+
+### (1)df[] 按索引标签和位置序号选取行或列
+
+```python
 df[0:1] 根据位置序号选取第一行
 df[:2] 根据位置序号选取前两行
 df[:'a'] 根据index标签选取第一行
@@ -29,8 +32,11 @@ df['name'] 选取name列，返回series
 df[['name','age']] 选取name,age两列，返回dataframe
 df[lambda df: df.columns[0]] 选取第一列
 df[lambda df: df.columns[:2]] 选取1至2列
+```
 
-(2)df.loc[] 按索引标签选取行和列
+### (2)df.loc[] 按索引标签选取行和列
+
+```python
 loc[]只能使用索引标签，不能使用位置序号，通过便签索引切边进行筛选时，前闭后闭
 df.loc['a',:] 选取索引为'a'的行
 df.loc[['a','b','c'],:] 选取索引为'a'或'b'或'c'的行
@@ -43,9 +49,13 @@ df.loc['a',['name','addr']] 选择'a'行的'name'与'addr'列数据
 df.loc['a','name':'addr'] 选择'a'行的'name'至'addr'列数据
 df.loc[['a','c'],['name''addr']] 选择'a','c'行的'name','addr'列数据
 df.loc['a':'c','name':'addr'] 选择'a'至'c'行的'name'至'addr'列数据
+```
 
-(3)df.iloc[] 按位置序号选取行和列
+### (3)df.iloc[] 按位置序号选取行和列
+
 只能使用位置序号，不能使用索引标签，通过位置序号进行筛选时，前闭后开
+
+```python
 df.iloc[1, :] 选取第2行
 df.iloc[:3, :] 选取前3行
 df.iloc[[1,3,5],:] 选取第2行、第4行、第6行
@@ -56,16 +66,26 @@ df.iloc[:, [0,2,3]] 选取第1列、第3列和第4列
 df.iloc[:,[True,True,False]] 通过布尔数组选取前2列
 df.iloc[1, [0,2,3]] 选取第2行的第1列、第3列、第4列
 df.iloc[:3, :3] 选取前3行的前3列
+```
 
-(4)df.at[] 只能按索引标签选取单元格
+### (4)df.at[] 只能按索引标签选取单元格
+
+```python
 df.at['b','name'] 选取b行的name列
+```
 
-(5)df.iat[] 只能按位置序号选取单元格
+### (5)df.iat[] 只能按位置序号选取单元格
+
 df.iat[1,0] 选取第2行第1列
+
+```python
 list1=[['B1', '2019-12-01', 3], ['B2', '2019-12-01', 8],[None, '2019-12-02', 4],['B2',None, 5]]
 data=pd.DataFrame(list1,columns=('asin','date','qty'))
+```
 
 (1)df[df['col']]用==,>等比较运算符
+
+```python
 df[df['age']>28] 选取所有age大于30的行
 df[[age>28 for age in df['age']]] 选取所有age大于30的行
 df[(df['age']>20) & (df['sex']=='male')] 选取出所有age大于20，且sex为male的行
@@ -77,8 +97,11 @@ df[(df['sex'] == 'Female') | (df['total_bill'] > 20)]
 df[df['total_bill'].isin([21.01, 23.68, 24.59])]
 df[-(df['sex'] == 'Male')]
 df[-df['total_bill'].isin([21.01, 23.68, 24.59])]
+```
 
 (2)df[df['col']]选出空值或非空值行
+
+```python
 data[data[0].isna()] 选取第1列为nan的行
 data[data[0].notna()] 选取第1列不为nan的行
 data[data[0].isnull()] 选取第1列为nan的行
@@ -91,12 +114,18 @@ data=data[(data['asin'].isnull()) & (data['date'].isnull())]
 #某列非空的行(包括nan)
 data=data[data['asin'].notnull()]
 data=data[data['asin'].notnull() & data['date'].notnull()]
+```
 
 (3)df[df['col'].isin()]用isin条件筛选
+
+```python
 new_data=data[data['Sourcing Status'].isin(['Dropped','In JIRA - 2018'])]
 new_data=data.loc[data['Sourcing Status'].isin(['Dropped','In JIRA - 2018'])]
+```
 
 (4)df[df['col'].str.contains]模糊匹配行
+
+```python
 #筛选包括有B,注意有nan会报错,可用notnull()去除nan行
 df=data[data['asin'].str.contains("B")]
 #筛选包括有n的 或 有i的
@@ -105,15 +134,21 @@ s3=pd.Series(['len','jack','win','lily','tom'],index=range(5))
 s4=s3[s3.str.contains("n")] #筛选包括有n的，区分大小写
 s4=s3[s3.str.contains("n|i")] #筛选包括有n的 或 有i的
 s4 = s3[s3.str.contains('|'.join(['i','n']))] #join写法
+```
 
 (5)df.loc[] 方式
+
+```python
 df.loc[df['age']>30,:] 选取所有age大于30的行
 df.loc[df.loc[:,'age']>30, :] 选取所有age大于30的行
 df.loc[lambda df:df['age'] > 30, :] 用callable对象选取age大于30的所有行
 df.loc[df['age']>30,['name','age']] 输出年龄大于30的人的姓名和年龄
 df.loc[(df['name']=='Mike') | (df['name']=='Marry'),['name','age']] 输出行名为‘Mike’或‘Marry’的姓名和年龄
+```
 
 (6)df.query()方式
+
+```python
 df.query('a > b') 选出a列值大于b列值的行
 df.query('age > 28') 选取所有age大于28的行
 df.query('sex=="male"') 选取所有sex为male的行
@@ -128,12 +163,17 @@ df.query('["yj", "zs"] in addr') 选出addr为yj或zs的行
 df.query('["yj", "zs"] not in addr') 选出addr不为yj和zs的行
 df.query('age < @avg_age') 选出age小于avg_age的行,avg_age为变量，调用时前面加上@
 df.query('not OUT') 选出OUT列为false的行，其中OUT的值只能为True或False
+```
 
 (7)where函数筛选
+
+```python
 DataFrame.where(cond, other=nan, inplace=False, axis=None, level=None, try_cast=False, raise_on_error=True)
 import numpy as np, pandas as pd
 s = pd.Series(range(5))
 print(s.where(s > 2))
+```
+
 2.dataframe遍历行列
 list1=[['B1', '2019-12-01', 3], ['B2', '2019-12-01', 8],['A1', '2019-12-02', 4],['A2','2019-12-09', 5]]
 data=pd.DataFrame(list1,columns=('asin','date','qty'))
@@ -221,11 +261,11 @@ df.assign(temp_f=lambda x: x.temp_c * 9 / 5 + 32)
 
 df.assign(temp_f=lambda x: x['temp_c'] * 9 / 5 + 32,temp_k=lambda x: (x['temp_f'] + 459.67) * 5 / 9)
 
-# temp_c temp_f temp_k
+temp_c temp_f temp_k
 
-# Portland 17.0 62.6 290.15
+Portland 17.0 62.6 290.15
 
-# Berkeley 25.0 77.0 298.15
+Berkeley 25.0 77.0 298.15
 
 s=pd.Series([11,12,13],name='S')
 data=np.arange(21,24)
@@ -233,13 +273,13 @@ df=pd.DataFrame({'A':[31,32,33],'B':[41,42,43]})
 fun=lambda x:x.A+x.B
 df.assign(C=fun,D=df.A+df.B,E=s,F=data)
 
-# A B C D E F
+A B C D E F
 
-# 0 31 41 72 72 11 21
+0 31 41 72 72 11 21
 
-# 1 32 42 74 74 12 22
+1 32 42 74 74 12 22
 
-# 2 33 43 76 76 13 23
+2 33 43 76 76 13 23
 
 (6)使用df.applymap函数
 
@@ -315,13 +355,13 @@ df = pd.merge(df1, df2, how='inner', left_on='name1',right_on='name2') #内连�
 7.append插入行
 DataFrame.append(self, other, ignore_index=False, verify_integrity=False, sort=None)
 
-# other：DataFrame、series、dict、list这样的数据结构
+other：DataFrame、series、dict、list这样的数据结构
 
-# ignore_index：默认值为False，如果为True则不使用index标签
+ignore_index：默认值为False，如果为True则不使用index标签
 
-# verify_integrity ：默认值为False，如果为True当创建相同的index时会抛出ValueError的异常
+verify_integrity ：默认值为False，如果为True当创建相同的index时会抛出ValueError的异常
 
-# sort：boolean，默认是None，该属性在pandas的0.23.0的版本才存在。
+sort：boolean，默认是None，该属性在pandas的0.23.0的版本才存在。
 
 df1=pd.DataFrame([['B1','2019-12-01',3],['B2','2019-12-01',8]],columns=('asin','date','qty'))
 df2=pd.DataFrame([['A1','2019-12-02',4],[None,None,5]],columns=('asin','date','qty'))
@@ -348,7 +388,6 @@ df = pd.concat([df1,df2],axis=1)
 asin        date  qty  order_num
 0   B1  2019-12-01    3         50
 1   B2  2019-12-01    8         56
-
 
 9.跨表update
 (1)语法
