@@ -186,7 +186,7 @@ print(index,row.tolist())
 
 # 输出每行的索引值
 
-# 0 ['B1', '2019-12-01', 3]
+0 ['B1', '2019-12-01', 3]
 
 (2)按行遍历itertuples()
 
@@ -197,7 +197,7 @@ print(row)
 print(getattr(row, 'asin'), getattr(row, 'date')) # name与age为列名
 #Pandas(Index=0, asin='B1', date='2019-12-01', qty=3)
 
-# B1 2019-12-01
+B1 2019-12-01
 
 (3)按列遍历iteritems()
 
@@ -289,15 +289,17 @@ df.applymap(lambda x: x**2)
 4.drop删除指定行列
 drop(labels, axis=0, level=None, inplace=False, errors='raise')
 (1)删除行
+
+```
 #删除单行
 data=data.drop('Ohio',axis =0)
 #删除多行
 data=data.drop(['Ohio','Colorado'],axis =0)
 #删除a和b行
-df.drop(['a','b'],inplace=True)
-
-#删除指定条件行
+df.drop(['a','b'],inplace=True)#删除指定条件行
 df_uk.drop(df_uk[df_uk['sku']==''].index)
+```
+
 
 (2)删除列
 #删除单列
@@ -342,16 +344,19 @@ suffixes 字符串值元组，用于追加到重叠列名的末尾，默认为�
 copy 设置为False，可以在某些特殊情况下避免将数据复制到结果数据结构中。默认总是赋值
 
 (2)merge连接样例
+
+```
 df=df1.merge(df2,on='name',how='left')
 df=df1.merge(df2,left_on='name',right_on='name',how='left')
 df=pd.merge(df1,df2,on=['key1','key2'],how='outer') #全连接，多键值连接
-df=pd.merge(A_df, B_df, how='left', left_on=['A_c1','c2'], right_on = ['B_c1','c2']) #全连接，多键值连接
-
-df = pd.merge(df1, df2, how='left', on='name') #左连接，关连列名相同
+df=pd.merge(A_df, B_df, how='left', left_on=['A_c1','c2'], right_on = ['B_c1','c2']) #全连接，多键值连接df = pd.merge(df1, df2, how='left', on='name') #左连接，关连列名相同
 df = pd.merge(df1, df2, how='inner', on='name') #内连接，关连列名相同
 df = pd.merge(df1, df2, how='outer', on='name') #全连接，关连列名相同
 df = pd.merge(df1, df2, how='left', left_on='name1',right_on='name2') #左连接，关连列名不相同
 df = pd.merge(df1, df2, how='inner', left_on='name1',right_on='name2') #内连接，关连列名不相同
+```
+
+
 7.append插入行
 DataFrame.append(self, other, ignore_index=False, verify_integrity=False, sort=None)
 
