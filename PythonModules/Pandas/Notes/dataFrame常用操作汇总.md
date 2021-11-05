@@ -175,14 +175,20 @@ print(s.where(s > 2))
 ```
 
 2.dataframe遍历行列
+
+```python
 list1=[['B1', '2019-12-01', 3], ['B2', '2019-12-01', 8],['A1', '2019-12-02', 4],['A2','2019-12-09', 5]]
 data=pd.DataFrame(list1,columns=('asin','date','qty'))
+```
+
 (1)按行遍历iterrows()
 
 iterrows() 按行遍历，返回(index, Series)对，通过row[name]访问元素
 
+```python
 for index, row in data.iterrows():
 print(index,row.tolist())
+```
 
 # 输出每行的索引值
 
@@ -203,63 +209,81 @@ B1 2019-12-01
 
 iteritems() 按列遍历，返回(列名, Series)对，row[index]访问元素
 
+```python
 for column_name, row in data.iteritems():
 print(column_name,row.tolist())
 #asin ['B1', 'B2', 'A1', 'A2']
 #date ['2019-12-01', '2019-12-01', '2019-12-02', '2019-12-09']
 #qty [3, 8, 4, 5]
+```
+
 (4)按index遍历行
 
+```python
 for index in data.index:
 print(data.loc[index].tolist())
 #['B1', '2019-12-01', 3]
 #['B2', '2019-12-01', 8]
 #['A1', '2019-12-02', 4]
 #['A2', '2019-12-09', 5]
+```
+
 (5)按column遍历列
 
+```python
 for column in data.columns:
-print(data[column].tolist())
-
-#['B1', 'B2', 'A1', 'A2']
+print(data[column].tolist())#['B1', 'B2', 'A1', 'A2']
 #['2019-12-01', '2019-12-01', '2019-12-02', '2019-12-09']
 #[3, 8, 4, 5]
+```
+
 3.dataframe新增行列
 (1)整列赋单值
 
 data['five']=9
 (2)由已知列生成新列
 
+```python
 data['qty2'] = data['qty']**3 #单列运算生成
 df['col']=df['col1']+df['col2'] #多列运算生成
+```
+
 (3)使用df.apply函数
 
+```python
 def padn(a,b):
-if a >= 10000 and b=='male':
-return 'yes'
-elif a>8000 and b=='female':
-return 'yes'
-else:
-return 'no'
+	if a >= 10000 and b=='male':
+		return 'yes'
+	elif a>8000 and b=='female':
+		return 'yes'
+	else:
+		return 'no'
+```
 
+```python
 df['fh']=df.apply(lambda x: padn(x.revenue,x.sex), axis = 1)
 df['col3'] = df.apply(lambda x: x['col1'] + 2 * x['col2'], axis=1)
+```
+
 (4)使用df.map函数
 
 1)使用自定义函数
+
+```python
 def square(x):
-return (x ** 2)
+	return (x ** 2)
 data['qty2'] = data['qty'].map(square)
+```
 
 2)使用匿名函数
 data['qty2'] = data['qty'].map(lambda x: x**2)
 (5)使用df.assign函数
 
+```python
 df = pd.DataFrame({'temp_c': [17.0, 25.0]},index=['Portland', 'Berkeley'])
 df.assign(temp_f=lambda x: x.temp_c * 9 / 5 + 32)
-#等同 df.assign(temp_f=df['temp_c'] * 9 / 5 + 32)
-
-df.assign(temp_f=lambda x: x['temp_c'] * 9 / 5 + 32,temp_k=lambda x: (x['temp_f'] + 459.67) * 5 / 9)
+#等同 df.assign(temp_f=df['temp_c'] * 9 / 5 + 32)df.assign(temp_f=lambda x: x['temp_c'] * 9 / 5 + 32,temp_k=lambda x: (x['temp_f'] + 459.67) * 5 / 9)
+```
 
 temp_c temp_f temp_k
 
@@ -267,11 +291,13 @@ Portland 17.0 62.6 290.15
 
 Berkeley 25.0 77.0 298.15
 
+```python
 s=pd.Series([11,12,13],name='S')
 data=np.arange(21,24)
 df=pd.DataFrame({'A':[31,32,33],'B':[41,42,43]})
 fun=lambda x:x.A+x.B
 df.assign(C=fun,D=df.A+df.B,E=s,F=data)
+```
 
 A B C D E F
 
@@ -283,14 +309,17 @@ A B C D E F
 
 (6)使用df.applymap函数
 
+```python
 #用法与apply相似，但作用于所有列
 df = pd.DataFrame([[1, 2.12], [3.356, 4.567]])
 df.applymap(lambda x: x**2)
+```
+
 4.drop删除指定行列
 drop(labels, axis=0, level=None, inplace=False, errors='raise')
 (1)删除行
 
-```
+```python
 #删除单行
 data=data.drop('Ohio',axis =0)
 #删除多行
@@ -300,37 +329,66 @@ df.drop(['a','b'],inplace=True)#删除指定条件行
 df_uk.drop(df_uk[df_uk['sku']==''].index)
 ```
 
-
 (2)删除列
+
+```python
 #删除单列
 data=data.drop('Ohio',axis =1)
 #删除多列
 data=data.drop(['Ohio','Colorado'],axis =1)
+```
 
 (3)使用del函数
+
+```python
 del data['two'] #two为列名 只可以删除单列
+```
+
 5.dataframe修改行列值
+
+```python
 df.values[i][j]= xxx  #其中i是行号，j是列号，都是从0开始
 df.values[1]=12  # 把第2行数据设为12
 df['a'] = 12  # 如果指定的列名不存在，会新增列
+```
 
 1)使用ix函数
+
+```python
 df_obj.ix[1:3，[1,3]]=1 #所选位置数据替换为1
+```
 
 2)修改具体元素值
+
+```python
 data['four'][1]=50 #注意行名在先
+```
 
 3)修改列值
+
+```python
 data['three']=1
+```
 
 4)修改行值
+
+```python
 data[2:]=1 #把第3行及以后行的值设为1
+```
 
 5)链式赋值采用loc
+
+```python
 df1.loc[df1.A<0.3, 'B'] = 1 #正常运行，而df1[df1.A<0.3]['B'] = 1会报SettingWithCopyWarning，且值不会修改
+```
+
 6.merge连接列
 (1)merge语法说明
+
+```python
 DataFrame.merge(left, right, how='inner', on=None, left_on=None, right_on=None, left_index=False, right_index=False, sort=False, suffixes=('_x', '_y'), copy=True, indicator=False, validate=None)
+```
+
 left 参与合并的左侧DataFrame
 right 参与合并的右侧DataFrame
 how 连接方式：'inner'（默认）；还有，'outer'、'left'、'right'
@@ -345,7 +403,7 @@ copy 设置为False，可以在某些特殊情况下避免将数据复制到结�
 
 (2)merge连接样例
 
-```
+```python
 df=df1.merge(df2,on='name',how='left')
 df=df1.merge(df2,left_on='name',right_on='name',how='left')
 df=pd.merge(df1,df2,on=['key1','key2'],how='outer') #全连接，多键值连接
@@ -356,9 +414,11 @@ df = pd.merge(df1, df2, how='left', left_on='name1',right_on='name2') #左连接
 df = pd.merge(df1, df2, how='inner', left_on='name1',right_on='name2') #内连接，关连列名不相同
 ```
 
-
 7.append插入行
+
+```python
 DataFrame.append(self, other, ignore_index=False, verify_integrity=False, sort=None)
+```
 
 other：DataFrame、series、dict、list这样的数据结构
 
@@ -368,12 +428,19 @@ verify_integrity ：默认值为False，如果为True当创建相同的index时�
 
 sort：boolean，默认是None，该属性在pandas的0.23.0的版本才存在。
 
+```python
 df1=pd.DataFrame([['B1','2019-12-01',3],['B2','2019-12-01',8]],columns=('asin','date','qty'))
 df2=pd.DataFrame([['A1','2019-12-02',4],[None,None,5]],columns=('asin','date','qty'))
 df=df1.append(df2, ignore_index=True)
+```
+
 8.concat合并列或插入行
 (1)语法
+
+```python
 pandas.concat(objs, axis=0, join='outer', join_axes=None, ignore_index=False, keys=None, levels=None,names=None, verify_integrity=False, copy=True)
+```
+
 axis=0, 对行操作 ，
 axis=1，对列操作
 join='outer', 连接各个数据，
@@ -382,13 +449,20 @@ join_axes=[df1.index]，保留与df1的行标签一样的数据，配合axis=1�
 ignore_index=False, 保留原索引，ignore_index=True，忽略原索引并生成新索引
 keys=['x', 'y', 'z'] 对组成的每个df重新添加个索引
 (2)插入行
+
+```python
 df1=pd.DataFrame([['B1','2019-12-01',3],['B2','2019-12-01',8]],columns=('asin','date','qty'))
 df2=pd.DataFrame([['A1','2019-12-02',4],[None,None,5]],columns=('asin','date','qty'))
 df = pd.concat([df1,df2],axis=0)
+```
+
 (3)合并列（按序合并，非连接)
+
+```python
 df1=pd.DataFrame([['B1','2019-12-01',3],['B2','2019-12-01',8]],columns=('asin','date','qty'))
 df2=pd.DataFrame({'order_num':[50,56]})
 df = pd.concat([df1,df2],axis=1)
+```
 
 asin        date  qty  order_num
 0   B1  2019-12-01    3         50
@@ -396,7 +470,11 @@ asin        date  qty  order_num
 
 9.跨表update
 (1)语法
+
+```python
 df.update(other, join='left', overwrite=True, filter_func=None, raise_conflict=False)
+```
+
 用另一个DataFrame中的非NA值进行就地修改
 other：DataFrame，至少有一个匹配的索引/列标签;Series必设name属性
 join：{'left'}仅实现左连接，保留原始对象的索引和列
@@ -406,9 +484,12 @@ overwrite =True：处理重叠键(行索引)非NA值：
 * False：仅更新原始df中na的值
 
 (2)案例
+
+```python
 df = pd.DataFrame({'A': [11, 12, 13],'B': [14, 15, 16]})
 new_df = pd.DataFrame({'B': [21, 22,23],'C': [24, 25, 26]})
 df.update(new_df)
+```
 
 A B
 0 11 21
