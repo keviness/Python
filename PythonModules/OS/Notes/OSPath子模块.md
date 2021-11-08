@@ -1,6 +1,4 @@
-# [`<span class="pre">os.path</span>`](https://docs.python.org/zh-cn/3/library/os.path.html#module-os.path "os.path: Operations on pathnames.") --- 常用路径操作
-
-**源代码：** [Lib/posixpath.py](https://github.com/python/cpython/tree/3.10/Lib/posixpath.py) （用于 POSIX）和 [Lib/ntpath.py](https://github.com/python/cpython/tree/3.10/Lib/ntpath.py) （用于 Windows NT）
+# OS.path 常用路径操作
 
 ---
 
