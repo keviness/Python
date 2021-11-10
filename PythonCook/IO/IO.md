@@ -245,7 +245,7 @@ fileObject.read([count])
 
 这里我们用到以上创建的 foo.txt 文件。
 
-```
+```python
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
  
