@@ -1,4 +1,4 @@
-# Python os 模块详解
+# Python OS 模块详解
 
 ## 1. 简介
 
@@ -221,7 +221,7 @@ FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'test_os_mkdi
 
 示例二：
 
-```
+```python
 In [1]: import os
 
 In [2]: os.getcwd()
@@ -296,7 +296,7 @@ In [10]:
 
 同样的，对应于 `os.makedirs()` ，删除路径操作 `os.rmdir()` 也有一个递归删除的函数 `os.removedirs()` ，该函数会尝试从最下级目录开始，逐级删除指定的路径，几乎就是一个 `os.makedirs()` 的逆过程；一旦遇到非空目录即停止。
 
-```
+```python
 In [10]: os.removedirs("aiyc/blog/PythonCourse/") # 我手动在 blog 文件夹中创建了一个文件
 
 In [11]: os.removedirs("aiyc/blog")
@@ -336,7 +336,7 @@ OSError: [WinError 145] 目录不是空的。: 'aiyc/blog'
 
 命令行显示如下：
 
-```
+```python
 In [1]: pwd
 Out[1]: 'C:\\Users\\clela\\Desktop\\aiyc'
 
@@ -377,7 +377,7 @@ C:\\Users\\clela\\Desktop\\aiyc\\1.2重新命名.pptx
 
 1. 使用的代码如下：
 
-```
+```python
 In [1]: pwd
 Out[1]: 'C:\\Users\\clela\\Desktop\\aiyc'
 
@@ -395,7 +395,7 @@ In [5]: os.rename(path_one, path_two)
 ![](https://ask.qcloudimg.com/http-save/7111610/dbd89a83db4e817bbe4a99ccf154a959.png?imageView2/2/w/1620)
 在这里插入图片描述
 
-```
+```python
 In [6]: ls
  驱动器 C 中的卷是 OS
  卷的序列号是 0AED-8BC3
@@ -433,7 +433,7 @@ C:\\Users\\clela\\Desktop\\aiyc_book\\1.2重新命名.pptx
 
 1. 使用的代码：
 
-```
+```python
 In [7]: path_one = "C:\\Users\\clela\\Desktop\\aiyc\\1.2重新命名.pptx"
 
 In [8]: path_two = "C:\\Users\\clela\\Desktop\\aiyc_book\\1.2重新命名.pptx"
@@ -452,7 +452,7 @@ FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\c
 
 当然，你可以手动创建文件夹然后运行上面的代码。但是这样显然就违背了自动化办公的初心，所以我们可以使用 `os.renames()` 函数来实现。
 
-```
+```python
 In [12]: os.renames(path_one, path_two)
 ```
 
@@ -464,14 +464,14 @@ In [12]: os.renames(path_one, path_two)
 
 在 Windows 下会有如下输出：
 
-```
+```python
 In [13]: os.getcwd()
 Out[13]: 'C:\\Users\\clela\\Desktop\\aiyc'
 ```
 
 Linux 下的输出则是：
 
-```
+```python
 In [1]: import os
 
 In [2]: os.getcwd()
@@ -484,7 +484,7 @@ Out[2]: '/home/aiyc/桌面'
 
 在 Windows 下，调用该函数的效果为：
 
-```
+```python
 In [13]: os.getcwd()
 Out[13]: 'C:\\Users\\clela\\Desktop\\aiyc'
 
@@ -499,7 +499,7 @@ Out[16]: 'C:\\Users\\clela\\Desktop'
 
 在 Linux 下的效果则是：
 
-```
+```python
 In [1]: import os
 
 In [2]: os.getcwd()
@@ -520,7 +520,7 @@ Out[6]: '/home'
 
 举例来说，可以通过将“当前工作目录”切换到父目录，从而直接访问父目录的文件内容：
 
-```
+```python
 In [9]: import os
 
 In [10]: os.getcwd()
@@ -570,7 +570,7 @@ Out[14]:
 
 但如果传入路径中存在一个“绝对路径”格式的字符串，且这个字符串不是函数的第一个参数，那么其他在这个参数之前的所有参数都会被丢弃，余下的参数再进行组合。更准确地说，只有最后一个“绝对路径”及其之后的参数才会体现在返回结果中。
 
-```
+```python
 In [16]: os.path.join("aiyc", "do", "python", "dot", "top")
 Out[16]: 'aiyc\\do\\python\\dot\\top'
 
@@ -587,7 +587,7 @@ Out[18]: 'g:/top'
 
 也就是说当传入路径符合“绝对路径”的格式时，该函数仅仅将路径分隔符替换为适应当前系统的字符，不做其他任何操作，并将结果返回。所谓“绝对路径的格式”，其实指的就是一个字母加冒号，之后跟分隔符和字符串序列的格式：
 
-```
+```python
 In [23]: os.path.abspath("a:/aiyc/do/python") # 我的系统中并没有 a 盘
 Out[23]: 'a:\\aiyc\\do\\python'
 
@@ -600,7 +600,7 @@ Out[25]: 'a:\\aiyc\\do\\python'
 
 当指定的路径不符合上述格式时，该函数会自动获取当前工作路径，并使用 `os.path.join()` 函数将其与传入的参数组合成为一个新的路径字符串。示例如下：
 
-```
+```python
 In [28]: os.getcwd()
 Out[28]: 'D:\\Curriculum-development\\使用Python实现办公自动化\\Coder\\02-文件操作\\OS_Module_Code'
 
@@ -612,14 +612,14 @@ Out[29]: 'D:\\Curriculum-development\\使用Python实现办公自动化\\Coder\\
 
 该函数返回传入路径的 “ **基名** ”，即传入路径的最下级目录。
 
-```
+```python
 In [31]: os.path.basename("D:\\Curriculum-development\\aiyc_lesson\\Coder\\02-文件操作\\OS_Module_Code") # 我的系统中同样没有这么一个路径。可见 os.path.basename() 页是单纯进行字符串处理
 Out[31]: 'OS_Module_Code'
 ```
 
 整这个函数要注意的一点是，返回的“基名”实际上是传入路径最后一个分隔符之后的子字符串，也就是说，如果最下级目录之后还有一个分隔符，得到的就会是一个空字符串：
 
-```
+```python
 In [33]: os.path.basename("D:\\Curriculum-development\\aiyc_lesson\\Coder\\02-文件操作\\OS_Module_Code\\")
 Out[33]: ''
 ```
@@ -628,7 +628,7 @@ Out[33]: ''
 
 与上一个函数正好相反，返回的是最后一个分隔符前的整个字符串：
 
-```
+```python
 In [35]: os.path.dirname("D:\\Curriculum-development\\aiyc_lesson\\Coder\\02-文件操作\\OS_Module_Code")
 Out[35]: 'D:\\Curriculum-development\\aiyc_lesson\\Coder\\02-文件操作'
 
@@ -649,7 +649,7 @@ Out[36]: 'D:\\Curriculum-development\\aiyc_lesson\\Coder\\02-文件操作\\OS_Mo
 
 就连二者的具体实现都十分真实：
 
-```
+```python
 Signature: os.path.dirname(p)
 Source:
 def dirname(p):
@@ -673,7 +673,7 @@ Type:      function
 
 这个函数用于判断路径所指向的位置是否存在。若存在则返回 `True` ，不存在则返回 `False` ：
 
-```
+```python
 In [41]: os.path.exists(".")
 Out[41]: True
 
@@ -690,7 +690,7 @@ Out[43]: True
 
 该函数判断传入路径是否是绝对路径，若是则返回 `True`，否则返回 `False`。当然，仅仅是检测格式，同样不对其有效性进行任何核验：
 
-```
+```python
 In [46]: os.path.isabs(".")
 Out[46]: False
 
@@ -702,7 +702,7 @@ Out[47]: True
 
 这两个函数分别判断传入路径是否是文件或路径，注意，此处会核验路径的有效性，如果是无效路径将会持续返回 `False` 。
 
-```
+```python
 In [54]: # 无效路径
 
 In [55]: os.path.isfile("a:/aiycpython")
