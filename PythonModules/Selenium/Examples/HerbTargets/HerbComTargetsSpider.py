@@ -3,9 +3,8 @@ from selenium import webdriver
 import time as t
 
 #cache path
-path = '/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Examples/HerbTargets/data/'
+path = '/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Examples/HerbTargets/Compound&Target/'
 
-#模拟浏览器
 
 def getHerbNames(file):
     dataFrame = pd.read_excel(file)
@@ -15,7 +14,7 @@ def getHerbNames(file):
     #print('herbList:\n', len(herbList))
     return herbList
 
-#封装成一个函数
+#模拟浏览器
 def getHerbTargetsHtml(herbList):
     driver = webdriver.Edge(executable_path='/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Source/msedgedriver')
     url = 'http://www.tcmip.cn/ETCM/index.php/Home/Index/yc_details.html?id=143'
