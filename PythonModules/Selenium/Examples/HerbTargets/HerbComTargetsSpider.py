@@ -25,9 +25,19 @@ def getHerbTargetsHtml(herbList):
     tableHtml = table.get_attribute('outerHTML')
     #print('tableHtml:\n', tableHtml)
     #dataFrame = pd.DataFrame()
-    data = pd.read_html(tableHtml)
+    
+    label = driver.find_element_by_xpath('//*[@id="reportTableDiv00"]/div[1]/div[3]/div[1]/span[1]')
+    labelStrList = label.get_attribute('innerHTML').split(' ')
+    nums = int(labelStrList[-2])
     dataFrame = pd.DataFrame()
-    dataFrame = dataFrame.append(data, ignore_index=True)
+    for e in range(0, (nums//20)):
+            table = driver.find_element_by_xpath('//*[@id="reportTable00"]')
+            tableHtml = table.get_attribute('outerHTML')
+            data = pd.read_html(tableHtml)
+            dataFrame = dataFrame.append(data, ignore_index=True)
+            next_page = driver.find_element_by_xpath('//*[@id="reportTableDiv00"]/div[1]/div[3]/div[2]/ul/li[9]/a')
+            next_url = next_page.get_attribute('href')
+            driver.get(next_url)
     dataFrame.set_index('Chemical Component', inplace=True)
     #print('data:\n',dataFrame)
     dataFrame.to_excel(path+f'{herbList[0]}.xlsx')
@@ -39,22 +49,20 @@ def getHerbTargetsHtml(herbList):
         js_new_window = 'window.location=\"'+url+'\"'
         # 执行js
         driver.execute_script(js_new_window)
-        table = driver.find_element_by_xpath('//*[@id="reportTable00"]')
-        tableHtml = table.get_attribute('outerHTML')
-        dataFrame = pd.DataFrame()
         
-        while True:
+        label = driver.find_element_by_xpath('//*[@id="reportTableDiv00"]/div[1]/div[3]/div[1]/span[1]')
+        labelStrList = label.get_attribute('innerHTML').split(' ')
+        nums = int(labelStrList[-2])
+        dataFrame = pd.DataFrame()
+        for e in range(0, (nums//20)):
+            table = driver.find_element_by_xpath('//*[@id="reportTable00"]')
+            tableHtml = table.get_attribute('outerHTML')
             data = pd.read_html(tableHtml)
             dataFrame = dataFrame.append(data, ignore_index=True)
-            next_page = driver.find_element_by_xpath('//*[@id="grid"]/div[3]/a[3]')
-            next_page_class = next_page.get_attribute('class')
-            #print('next_page_class:\n', next_page_class)
-            if next_page_class == 'k-link k-state-disabled':
-                break
-            else:
-                next_page.click()
-            
-        dataFrame.set_index('Chemical Component', inplace=True)
+            next_page = driver.find_element_by_xpath('//*[@id="reportTableDiv00"]/div[1]/div[3]/div[2]/ul/li[9]/a')
+            next_url = next_page.get_attribute('href')
+            driver.get(next_url)        
+        #dataFrame.set_index('Chemical Component', inplace=True)
         dataFrame.to_excel(path+'{}.xlsx'.format(herbList[i-1]))
         print('write {} to excel successfully!'.format(herbList[i-1]))
     driver.close()
