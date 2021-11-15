@@ -1,7 +1,11 @@
 import pandas as pd
 from selenium import webdriver
 import time as t
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
+#get直接返回，不再等待界面加载完成
+desired_capabilities = DesiredCapabilities.EDGE
+desired_capabilities["pageLoadStrategy"] = "none"
 #cache path
 path = '/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Examples/HerbTargets/Compound&Target/'
 
@@ -54,7 +58,7 @@ def getHerbTargetsHtml(herbList):
         labelStrList = label.get_attribute('innerHTML').split(' ')
         nums = int(labelStrList[-2])
         dataFrame = pd.DataFrame()
-        for e in range(0, (nums//20)):
+        for e in range(0, (nums//20)+1):
             table = driver.find_element_by_xpath('//*[@id="reportTable00"]')
             tableHtml = table.get_attribute('outerHTML')
             data = pd.read_html(tableHtml)
