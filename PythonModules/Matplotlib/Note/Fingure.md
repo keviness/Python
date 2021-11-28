@@ -1,9 +1,5 @@
 # Matplotlib figure图形对象
 
-**<** [PyLab模块绘制曲线](http://c.biancheng.net/matplotlib/pylab-module.html)[Matplotlib axes类](http://c.biancheng.net/matplotlib/axes.html) **>**
-
-[C语言中文网推出辅导班啦，包括「C语言辅导班、C++辅导班、算法/数据结构辅导班」，全部都是一对一教学：一对一辅导 + 一对一答疑 + 布置作业 + 项目实践 + 永久学习。QQ在线，随时响应！](http://fudao.biancheng.net/)
-
 通过前面的学习，我们知道 `matplotlib.pyplot`模块能够快速地生成图像，但如果使用面向对象的编程思想，我们就可以更好地控制和自定义图像。
 
 在 Matplotlib 中，面向对象编程的核心思想是创建图形对象（figure object）。通过图形对象来调用其它的方法和属性，这样有助于我们更好地处理多个画布。在这个过程中，pyplot 负责生成图形对象，并通过该对象来添加一个或多个 axes 对象（即绘图区域）。
