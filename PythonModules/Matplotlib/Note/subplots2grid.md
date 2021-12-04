@@ -5,8 +5,9 @@
 函数语法格式如下：
 plt.subplot2grid(shape, location, rowspan, colspan)
 
-参数含义如下：* shape：把该参数值规定的网格区域作为绘图区域；
+参数含义如下：
 
+* shape：把该参数值规定的网格区域作为绘图区域；
 * location：在给定的位置绘制图形，初始位置 (0,0) 表示第1行第1列；
 * rowsapan/colspan：这两个参数用来设置让子区跨越几行几列。
 
