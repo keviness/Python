@@ -4,41 +4,21 @@ import os
 import openpyxl
 inputPath = '/Users/kevin/Desktop/program files/python/PythonModules/Pandas/Examples/SourceData/'
 outputPath = '/Users/kevin/Desktop/program files/python/PythonModules/Pandas/Examples/FilterData/'
-averageOutputPath = '/Users/kevin/Desktop/program files/python/PythonModules/Pandas/Examples/AverageData/'
-
-def cleanFZTHerbList(FZTHerbPath, FZT_TTEHerbPath):
-    FZTdataFrame = pd.read_excel(FZTHerbPath)
-    FZTHerbList = FZTdataFrame['Herb name in Chinese'].values
-    print('FZTdataFrame:\n', FZTdataFrame)
-    FZTdataFrame.set_index('Herb name in Chinese', inplace=True)
-    FZT_TTEdataFrame = pd.read_excel(FZT_TTEHerbPath)
-    #print('FZT_TTEdataFrame:\n', FZT_TTEdataFrame)
-    FZT_TTEHerbList = FZT_TTEdataFrame['MoleculeName'].values
-    #FZT_TTEdataFrame.set_index('MoleculeName', inplace=True)
-    
-    print('FZT_TTEdataFrame:\n', FZT_TTEdataFrame)
-    print('FZT_TTEHerbList:\n', FZT_TTEHerbList)
-
-    for FZTHerb in FZTHerbList:
-        if FZTHerb in FZT_TTEHerbList:
-            continue
-        FZTdataFrame.drop(index=FZTHerb, inplace=True)
-    FZTdataFrame.to_excel(averageOutputPath+'Experiment.xlsx')
-    #return FZTHerbList
+averageOutputPath = '/Users/kevin/Desktop/program files/python/PythonModules/Pandas/Examples/FliterData/502HerbsAverageData/'
 
 def getFZTHerbList(FZTHerbPath):
     dataFrame = pd.read_excel(FZTHerbPath)
     FZTHerbList = dataFrame['Herb name in Chinese'].values
-    #print('herbNameList:\n', herbNameList)
+    print('herbNameList:\n', FZTHerbList)
     return FZTHerbList
 
 def screenExcelFiles(inputPath, FZTHerbList):
-    filesNames = os.listdir(inputPath)
-    fileHerbNames = [fileName.split('.')[0] for fileName in filesNames]
+    #filesNames = os.listdir(inputPath)
+    #fileHerbNames = [fileName.split('.')[0] for fileName in filesNames]
     i=1
     herbAverageDataFrame = pd.DataFrame()
-    for fileName in filesNames:
-        herbName = fileName.split('.')[0]
+    for herbName in FZTHerbList:
+        #herbName = fileName.split('.')[0]
         #postFix = fileName.split('.')[1]
         if herbName not in FZTHerbList:
             continue
@@ -48,18 +28,18 @@ def screenExcelFiles(inputPath, FZTHerbList):
         '''
         print(f'handle herbName:{herbName}')
         #fileName = herbName+'.xlsx'
-        AverageDataFrame = filterData(fileName, herbName, i, herbAverageDataFrame)
+        AverageDataFrame = filterData(herbName, i, herbAverageDataFrame)
         #print('AverageDataFrame:\n', AverageDataFrame)
         herbAverageDataFrame = herbAverageDataFrame.append(AverageDataFrame, ignore_index=True)
         i+=1
     herbAverageDataFrame.set_index('MoleculeName', inplace=True)
     herbAverageDataFrame.dropna(inplace=True)
     print('herbAverageDataFrame:\n',herbAverageDataFrame)
-    herbAverageDataFrame.to_excel(averageOutputPath+'AverageResult.xlsx')
+    herbAverageDataFrame.to_excel(averageOutputPath+'502AverageResult.xlsx')
     print(f'Write to Excel file Successfully!')
 
-def filterData(fileName, herbName, index, herbAverageDataFrame):
-    dataFrame = pd.read_excel(inputPath+fileName)
+def filterData(herbName, index, herbAverageDataFrame):
+    dataFrame = pd.read_excel(inputPath+herbName+'.xlsx')
     #print('dataFrame:\n', dataFrame.columns)
     del dataFrame[12]
     del dataFrame['Unnamed: 0']
@@ -82,8 +62,7 @@ def filterData(fileName, herbName, index, herbAverageDataFrame):
     return AverageDataFrame
     
 if __name__ == '__main__':
-    FZTHerbPath = '/Users/kevin/Desktop/program files/python/PythonModules/Pandas/Examples/FZTHerbs/402中药信息.xlsx'
-    FZT_TTEHerbPath = '/Users/kevin/Desktop/program files/python/PythonModules/Pandas/Examples/FZTHerbs/402_328AverageResult.xlsx'
-    #FZTHerbList = getFZTHerbList(FZTHerbPath)
-    #screenExcelFiles(inputPath, FZTHerbList)
-    cleanFZTHerbList(FZTHerbPath, FZT_TTEHerbPath)
+    FZTHerbPath = '/Users/kevin/Desktop/program files/python/PythonModules/Pandas/Examples/FliterData/502HerbsData/502Herbs.xlsx'
+    FZTHerbList = getFZTHerbList(FZTHerbPath)
+    screenExcelFiles(inputPath, FZTHerbList)
+    
