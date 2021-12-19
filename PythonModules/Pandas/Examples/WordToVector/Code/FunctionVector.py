@@ -7,9 +7,10 @@ import openpyxl
 outputPath = '/Users/kevin/Desktop/program files/python/PythonModules/Pandas/Examples/WordToVector/Data/'
 sheetName1 = 'FeatureVectorTable'
 #sheetName2 = 'Vector'
+
 def getVectorList(Herbs402Path):
     Herbs402dataFrame = pd.read_excel(Herbs402Path, sheet_name=sheetName1)
-    Herbs402List = Herbs402dataFrame[['Herb','Description']].values
+    Herbs402List = Herbs402dataFrame[['Herb','Function']].values
     #print('Herbs402List:\n', Herbs402List)
     herbs = Herbs402List[:,0]
     DescriptionData = Herbs402List[:,1]
@@ -30,10 +31,10 @@ def getVectorList(Herbs402Path):
 def writeToExcel(DescriptionVectorRule, Description402VectorRule):
 
     dataFrame = pd.DataFrame({'Description':DescriptionVectorRule[:,0],'Description Vector':DescriptionVectorRule[:,1]})
-    dataFrame.to_excel(outputPath+'DescriptionVector.xlsx')
+    dataFrame.to_excel(outputPath+'FunctionVector.xlsx')
 
-    dataFrame = pd.DataFrame({'herbName':Description402VectorRule[:,0],'Description':Description402VectorRule[:,1], 'Description Vector':Description402VectorRule[:,2]})
-    dataFrame.to_excel(outputPath+'Description402Vector.xlsx')
+    dataFrame = pd.DataFrame({'herbName':Description402VectorRule[:,0],'Function':Description402VectorRule[:,1], 'Function Vector':Description402VectorRule[:,2]})
+    dataFrame.to_excel(outputPath+'Function402Vector.xlsx')
     print('write to excel successfully!')
     
 if __name__ == '__main__':
