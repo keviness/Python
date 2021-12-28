@@ -28,10 +28,10 @@ def cleanFZTHerbList(Herbs402Path, Herbs703Path):
         print('selectHerbInfo:',selectHerbInfo)
         result = result.append(selectHerbInfo, ignore_index=True)
     print('result:\n', result)
-    result.to_excel(outputPath+'402_703HerbInfo.xlsx')
+    result.to_excel(outputPath+'502_703HerbInfo.xlsx')
     #return FZTHerbList
 
 if __name__ == '__main__':
-    Herbs402Path = '/Users/kevin/Desktop/program files/python/PythonModules/Pandas/Examples/FliterData/502HerbsData/402中药信息.xlsx'
+    Herbs402Path = '/Users/kevin/Desktop/program files/python/PythonModules/Pandas/Examples/FliterData/502HerbsData/502HerbsAverageData/502AverageResult.xlsx'
     Herbs703Path = '/Users/kevin/Desktop/program files/python/PythonModules/Pandas/Examples/FliterData/703HerbsData/703Herbs.xlsx'
     cleanFZTHerbList(Herbs402Path, Herbs703Path)
