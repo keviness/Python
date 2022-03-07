@@ -2,11 +2,13 @@ from tkinter import*
 from tkinter import filedialog, messagebox
 #from turtle import bgcolor
 from wordcloud import WordCloud
+from wordcloud import ImageColorGenerator
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import jieba
 import numpy as np
 from PIL import Image, ImageTk
+from imageio import imread
 
 jieba.set_dictionary('./dict/dict.txt')
 jieba.initialize()
@@ -74,8 +76,28 @@ def handleprotocol():
         win.destroy()
         
 def wordsnumber():
+    listbox.delete(1.0, "end")
     dct = {}
     txt_count = textbook.get(1.0, "end")
+    word_count = jieba.lcut(txt_count)
+    for word in word_count:
+        if len(word) == 1:
+            continue
+        dct[word] = dct.get(word, 0) + 1
+    items = list(dct.items())
+    items.sort(key=lambda x:x[1], reverse=True)
+    for w in range(len(items)):
+        listbox.insert("end", "{0} : {1}\n".format(items[w][0], items[w][1]))
+        if w > 100:
+            break
+        
+def wordsnumber_with_selected():
+    listbox.delete(1.0, "end")
+    dct = {}
+    txt_count = textbook.get(SEL_FIRST, SEL_LAST)
+    if txt_count == None:
+        messagebox.showinfo("提示", "未选择文本！")
+        return
     word_count = jieba.lcut(txt_count)
     for word in word_count:
         if len(word) == 1:
@@ -93,12 +115,15 @@ def generate_wordcloud():
     words = jieba.lcut(txt_cloud)
     newtext = "".join(words)
     if messagebox.askokcancel("提示", "是否生成自定义样式的词云？") == False:
-        wordcloud = WordCloud(background_color="white", font_path="./SIMKAI.TTF",max_font_size=20, width=600, height=400, scale=5).generate(newtext)
+        wordcloud = WordCloud(background_color="white", font_path="./SIMKAI.TTF",max_font_size=50, max_words=800, width=1000,height=700,scale=6).generate(newtext)
     else:
         bg_pic_path = filedialog.askopenfilename()
         if bg_pic_path != None:
             mask = np.array(Image.open(bg_pic_path))
-            wordcloud = WordCloud(background_color="white", font_path="./SIMKAI.TTF",max_font_size=20, width=600, height=400, scale=5, mask=mask).generate(newtext)
+            #mask = imread(bg_pic_path,pilmode="CMYK")
+            wordcloud = WordCloud(background_color="white", font_path="./SIMKAI.TTF",max_font_size=50, mode='RGBA',max_words=800, width=1000,height=700,scale=5, mask=mask).generate(newtext)
+            image_colors = ImageColorGenerator(mask)
+            wordcloud.recolor(color_func=image_colors)#重置颜色函数
         else:
             messagebox.showinfo("提示", "未选择图片，请重试！")
             return
@@ -114,7 +139,37 @@ def generate_wordcloud():
     else:
             messagebox.showinfo("提示", "文件名错误")
     
-    
+def generate_wordcloud_with_selected():
+    txt_cloud = textbook.get(SEL_FIRST, SEL_LAST)
+    if txt_cloud == None:
+        messagebox.showinfo("提示", "未选择文本！")
+        return
+    words = jieba.lcut(txt_cloud)
+    newtext = "".join(words)
+    if messagebox.askokcancel("提示", "是否生成自定义样式的词云？") == False:
+        wordcloud = WordCloud(background_color="white", font_path="./SIMKAI.TTF",max_font_size=50, max_words=800, width=1000,height=700,scale=6).generate(newtext)
+    else:
+        bg_pic_path = filedialog.askopenfilename()
+        if bg_pic_path != None:
+            mask = np.array(Image.open(bg_pic_path))
+            #mask = imread(bg_pic_path,pilmode="CMYK")
+            wordcloud = WordCloud(background_color="white", font_path="./SIMKAI.TTF",max_font_size=50, mode='RGBA',max_words=800, width=1000,height=700,scale=5, mask=mask).generate(newtext)
+            image_colors = ImageColorGenerator(mask)
+            wordcloud.recolor(color_func=image_colors)#重置颜色函数
+        else:
+            messagebox.showinfo("提示", "未选择图片，请重试！")
+            return
+    plt.imshow(wordcloud)
+    plt.axis('off')
+    plt.show()
+    if messagebox.askokcancel("提示", "是否将词云图片导出？") == False:
+        return
+    filename_save = filedialog.asksaveasfilename()
+    if filename_save != None:
+        wordcloud.to_file(filename_save+'.png')
+        messagebox.showinfo("提示", "词云图片已经保存到目录: "+filename_save+"！")
+    else:
+            messagebox.showinfo("提示", "文件名错误")
     
 def showpopmenu(event):
     popmenu.post(event.x_root, event.y_root)
@@ -173,9 +228,11 @@ topmenu.add_cascade(label="编辑", menu=editmenu)
 
 
 functionmenu = Menu(topmenu, tearoff=False)
-functionmenu.add_command(label="统计词频", command=wordsnumber)
-functionmenu.add_command(label="生成词云", command=generate_wordcloud)
+functionmenu.add_command(label="统计词频(全文)", command=wordsnumber)
+functionmenu.add_command(label="统计词频(所选文本)", command=wordsnumber_with_selected)
+functionmenu.add_command(label="生成词云(全文)", command=generate_wordcloud)
 #functionmenu.add_command(label="展示图片", command=showpicture)
+functionmenu.add_command(label="生成词云(所选文本)", command=generate_wordcloud_with_selected)
 topmenu.add_cascade(label="功能", menu=functionmenu)
 
 aboutusmenu = Menu(topmenu, tearoff=False)
@@ -186,8 +243,11 @@ win.config(menu=topmenu)
 popmenu = Menu(win, tearoff=False)
 popmenu.add_command(label="打开", command=openfile)
 #popmenu.add_command(label="展示图片", command=showpicture)
-popmenu.add_command(label="统计词频", command=wordsnumber)
-popmenu.add_command(label="生成词云", command=generate_wordcloud)
+popmenu.add_command(label="统计词频(全文)", command=wordsnumber)
+popmenu.add_command(label="统计词频(所选文本)", command=wordsnumber_with_selected)
+popmenu.add_separator()
+popmenu.add_command(label="生成词云(全文)", command=generate_wordcloud)
+popmenu.add_command(label="生成词云(所选文本)", command=generate_wordcloud_with_selected)
 popmenu.add_separator()
 popmenu.add_command(label="剪切", command=cut)
 popmenu.add_command(label="复制", command=copy)
