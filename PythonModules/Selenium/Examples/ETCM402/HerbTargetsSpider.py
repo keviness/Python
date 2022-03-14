@@ -2,7 +2,7 @@ import pandas as pd
 from selenium import webdriver
 import time as t
 
-path = '/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Examples/HerbTargets/data/'
+path = '/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Examples/ETCM402/data/'
 
 #模拟浏览器
 def getHerbNames(file):
