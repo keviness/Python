@@ -35,13 +35,16 @@ def getHerbTargetsHtml(url, start, end):
     resultDataFrame.columns = colums
     resultDataFrame.to_excel(path+str(start)+'_'+str(end)+'compounds.xlsx', index=True)
     print('write To excel file successfully!')
+    #driver.close()
     return resultDataFrame
 
     
 if __name__ == '__main__':
     #file = path + '402中药信息.xlsx'
     #herbList = getHerbNames(file)
-    startEndList = [(1002,3001), (3001,4001), (4001,5001),(5001,6001),(6001,7001),(7001,7443)]
+    #getHerbTargetsHtml(url, 1002, 2001)
+
+    startEndList = [(5001,6001),(6001,7001),(7001,7443)]
     dataFrameResult = pd.DataFrame()
     for start, end in startEndList:
         dataFrame = getHerbTargetsHtml(url, start, end)
