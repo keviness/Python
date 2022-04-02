@@ -1,7 +1,7 @@
 from selenium import webdriver
 
 import pandas as pd
-url = 'https://old.tcmsp-e.com/molecule.php?qn='
+url = 'https://old.tcmsp-e.com/molecule.php?qn=01'
 bor = webdriver.Edge(executable_path='/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Source/msedgedriver')
 
 #options = webdriver.WebKitGTKOptions()
