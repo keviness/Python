@@ -5,11 +5,13 @@ import os
 inputPath = '/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Examples/SYMMAP/Data/703Herbs.xlsx'
 outputPath = '/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Examples/SYMMAP/Result/'
 #bor = webdriver.Edge(executable_path='/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Source/msedgedriver')
+'''
 options = webdriver.ChromeOptions()
 prefs = {'profile.default_content_settings.popups': 0, 'download.default_directory': outputPath}
 options.add_experimental_option('prefs', prefs)
 bor = webdriver.Chrome(executable_path='/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Source/chromedriver', chrome_options=options)
 bor.maximize_window()
+'''
 #options = webdriver.WebKitGTKOptions()
 #prefs = {'profile.default_content_settings.popups': 0, 'download.default_directory': '默认下载路径'} 
 #options.add_experimental_option('prefs', prefs)
@@ -23,41 +25,34 @@ def getContents(inputPath):
     #print('herbList:\n', herbList)
     return herbIDList, herbNameList
  
-def CrawlHerbInfo(bor, herbIDList, herbNameList):
+def CrawlHerbInfo(downLoadType, btnIndex, herbIDList, herbNameList):
+    options = webdriver.ChromeOptions()
+    prefs = {'profile.default_content_settings.popups': 0, 'download.default_directory': outputPath+downLoadType+'/'}
+    options.add_experimental_option('prefs', prefs)
+    bor = webdriver.Chrome(executable_path='/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Source/chromedriver', chrome_options=options)
+    bor.maximize_window()
     for herbID, herbName in zip(herbIDList, herbNameList):
         #print(f'{herbID}:{herbName}')
         bor.get('http://www.symmap.org/detail/SMHB'+str(herbID))
-        SyndromeBtn = bor.find_element_by_xpath('//*[@id="button_select_group"]/button[1]')
+        # ---Syndrome---
+        SyndromeBtn = bor.find_element_by_xpath('//*[@id="button_select_group"]/button['+str(btnIndex)+']')
         SyndromeBtn.click()
-        downloadPath = outputPath+herbName
-        os.makedirs(downloadPath)
-        prefs['download.default_directory'] = downloadPath
         downloadBtn = bor.find_element_by_xpath('//*[@id="dl-btn"]')
         downloadBtn.click()
-        prefs['download.default_directory'] = downloadPath
-    '''
-    numLabel = bor.find_element_by_xpath('/html/body/div[1]/section/div/div/div/div[5]/div[2]/div/div[1]/div[3]/div[1]/span')
-    numLabelText = numLabel.get_attribute('innerHTML')
-    #print('numLabelHtml:\n', numLabelText)
-    num = int(numLabelText.strip().split(' ')[-2])
-    #print('num:\n', num)
-    dataFrame = pd.DataFrame()
-    for i in range(1, (num//10)+1):
-        table = bor.find_element_by_xpath('//*[@id="table"]')
-        table_html = table.get_attribute('outerHTML')
-        #print('table_html:\n', table_html)
-        data = pd.read_html(table_html)
-        dataFrame = dataFrame.append(data, ignore_index=True)
-        #print('dataFrame:\n', dataFrame)
-        next_page_btn = bor.find_element_by_xpath('/html/body/div[1]/section/div/div/div/div[5]/div[2]/div/div[1]/div[3]/div[2]/ul/li[9]/a')
-        next_page_btn.click()
-        #print('next_page_class:\n', next_page_class)
-    dataFrame.to_excel(outputPath+herbName+'.xlsx')
-    print(f'write {herbName} information to excel successfully!')
-    '''
+        changeFileName(outputPath, herbID+herbName+downLoadType)
+    bor.close()
+    
+def changeFileName(downloadPath, newName):
+    os.chdir(downloadPath)
+    files = filter(os.path.isfile, os.listdir(downloadPath))
+    files = [os.path.join(downloadPath, f) for f in files] # add path to each file
+    files.sort(key=lambda x: os.path.getmtime(x))
+    newest_file = files[-1]
+    os.rename(newest_file, newName+".csv")
 
 if __name__ == '__main__':
     herbIDList, herbNameList = getContents(inputPath)
-    CrawlHerbInfo(bor, herbIDList, herbNameList)
-    bor.close()
-    #main()
+    typeList = ['Syndrome','TCMSymptoms','MMSymptoms','Ingredient','Target','Disease']
+    for type in typeList:
+        CrawlHerbInfo(type, typeList.index(type)+1, herbIDList, herbNameList)
+    
