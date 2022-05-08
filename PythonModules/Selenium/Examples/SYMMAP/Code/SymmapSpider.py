@@ -53,6 +53,6 @@ def changeFileName(downloadPath, newName):
 if __name__ == '__main__':
     herbIDList, herbNameList = getContents(inputPath)
     typeList = ['Syndrome','TCMSymptoms','MMSymptoms','Ingredient','Target','Disease']
-    for type in typeList:
-        CrawlHerbInfo(type, typeList.index(type)+1, herbIDList, herbNameList)
+    for scrawType in typeList:
+        CrawlHerbInfo(scrawType, typeList.index(scrawType)+1, herbIDList, herbNameList)
     
