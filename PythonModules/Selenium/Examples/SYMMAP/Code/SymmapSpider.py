@@ -31,9 +31,9 @@ def CrawlHerbInfo(downLoadType, btnIndex, herbIDList, herbNameList):
     options.add_experimental_option('prefs', prefs)
     bor = webdriver.Chrome(executable_path='/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Source/chromedriver', chrome_options=options)
     bor.maximize_window()
-    for herbID in len(zip(herbIDList, herbNameList)):
+    for herbID, herbName in zip(herbIDList, herbNameList):
         #print(f'{herbID}:{herbName}')
-        bor.get('http://www.symmap.org/detail/SMHB'+str(herbID+1))
+        bor.get('http://www.symmap.org/detail/SMHB'+str(herbID))
         # ---Syndrome---
         SyndromeBtn = bor.find_element_by_xpath('//*[@id="button_select_group"]/button['+str(btnIndex)+']')
         SyndromeBtn.click()
