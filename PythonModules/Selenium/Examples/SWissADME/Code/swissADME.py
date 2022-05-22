@@ -1,6 +1,7 @@
 from selenium import webdriver
 import pandas as pd
 import os
+import time
 #from selenium.webdriver.support.select import Select
 inputPath = '/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Examples/SWissADME/Data/502T2DM.xlsx'
 outputPath = '/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Examples/SWissADME/Result/'
@@ -28,7 +29,7 @@ options.add_experimental_option('prefs', prefs)
 bor = webdriver.Chrome(executable_path='/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Source/chromedriver', options=options)
 
 def getContents(inputPath):
-    dataFrame = pd.read_excel(inputPath)
+    dataFrame = pd.read_excel(inputPath,sheet_name='502T2DM')
     data = dataFrame.loc[:, ['name','smiles']].values
     #print('data:\n', data)
     ModuleNameList = data[:,0]
@@ -38,20 +39,24 @@ def getContents(inputPath):
  
 def CrawlHerbInfo(ModuleNameList, smilesList, step):
     bor.get('http://www.swissadme.ch/index.php#')
-    for i in range(0, len(smilesList)//step+1):
-        #print(f'{i}:{len(smilesList[i*200:(i+1)*200])}:{len(ModuleNameList[i*200:(i+1)*200])}')
+    for i in range(13, len(smilesList)//step+1):
+        print("process{},{}--{}".format(i, i*step, (i+1)*step))
         smilsStr = '\n'.join(smilesList[i*step:(i+1)*step])
         #print(str(i)+'smilsStr:\n', smilsStr)
-
         textArea = bor.find_element_by_xpath('//*[@id="smiles"]')
         textArea.send_keys(smilsStr)
         textAreaText = textArea.get_attribute('innerHTML')
-        print('textAreaText:\n', textAreaText)
+        #print('textAreaText:\n', textAreaText)
         runBtn = bor.find_element_by_xpath('//*[@id="submitButton"]')
         runBtn.click()
         downloadBtn = bor.find_element_by_xpath('//*[@id="sib_body"]/div[7]/a[1]')
         downloadBtn.click()
-        changeFileName(outputPath, str(i))
+        clearBtn = bor.find_element_by_xpath('//*[@id="myForm"]/div/input[2]')
+        clearBtn.click()
+        #changeFileName(outputPath, str(i))
+        time.sleep(5)
+        print("{},{}--{}Download successfully!".format(i, i*step, (i+1)*step))
+        bor.execute_script('window.location="http://www.swissadme.ch/index.php#"')
     bor.close()
 
 def changeFileName(downloadPath, newName):
@@ -64,7 +69,7 @@ def changeFileName(downloadPath, newName):
 
 if __name__ == '__main__':
     ModuleNameList, smilesList = getContents(inputPath)
-    CrawlHerbInfo(ModuleNameList, smilesList, 30)
+    CrawlHerbInfo(ModuleNameList, smilesList, 100)
     #changeFileName(outputPath, '1')
     '''
     typeList = ['Syndrome','TCMSymptoms','MMSymptoms','Ingredient','Target','Disease']
