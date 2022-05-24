@@ -18,6 +18,7 @@ bor.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
     # 这里的操作大概就是把控制台中的window.navigator.webdriver =undefined  赋值   因为人机操作会认为是Ture
         "source": '''Object.defineProperties(navigator,webdriver:{get:()=> undefined}'''
     })
+
 bor.maximize_window()
 #bor = webdriver.Edge(executable_path='/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Source/msedgedriver')
 # 对指定的url发起请求
