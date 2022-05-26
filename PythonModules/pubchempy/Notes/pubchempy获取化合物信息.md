@@ -93,8 +93,6 @@ print(compound.iupac_name)
 
 输出结果：
 
-![](https://fjjwhjwd3p.feishu.cn/space/api/box/stream/download/asynccode/?code=YjhkMjAzZTE1OGY4ZDk2YzVkYmFhYjZjMmRkNjYyYzVfbDAyNzVhVm41UDhJd0hTcVd4ME5pRjlKQ3p6bTdBQzVfVG9rZW46Ym94Y25xTXI3NnNQY1VXaE1uUGRuaUNYQ005XzE2NTM0MDk3Mjk6MTY1MzQxMzMyOV9WNA)
-
 **2.输出为excel**
 
 ```Python
