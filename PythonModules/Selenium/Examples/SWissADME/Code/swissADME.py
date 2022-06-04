@@ -56,7 +56,7 @@ def CrawlHerbInfo(ModuleNameList, smilesList, step):
         #changeFileName(outputPath, str(i))
         time.sleep(5)
         print("{},{}--{}Download successfully!".format(i, i*step, (i+1)*step))
-        bor.execute_script('window.location="http://www.swissadme.ch/index.php#"')
+        bor.execute_script('window.location=\"http://www.swissadme.ch/index.php#\"')
     bor.close()
 
 def changeFileName(downloadPath, newName):

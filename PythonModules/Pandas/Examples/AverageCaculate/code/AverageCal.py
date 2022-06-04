@@ -5,7 +5,7 @@ import openpyxl
 inputPath = '/Users/kevin/Desktop/program files/python/PythonModules/Pandas/Examples/SourceData/'
 outputPath = '/Users/kevin/Desktop/program files/python/PythonModules/Pandas/Examples/AverageCaculate/AverageData/ExperimentFilterData/'
 averageOutputPath = '/Users/kevin/Desktop/program files/python/PythonModules/Pandas/Examples/FliterData/502HerbsData/502HerbsAverageData/'
-HerbPath = '/Users/kevin/Desktop/program files/python/PythonModules/Pandas/Examples/AverageCaculate/AverageData/ExperimentHerbsData.xlsx'
+HerbPath = '/Users/kevin/Desktop/program files/python/PythonModules/Pandas/Examples/AverageCaculate/AverageData/T2DHerbsList.xlsx'
 sheetName = 'Sheet1'
 
 def getHerbList(HerbPath):
@@ -57,9 +57,9 @@ def filterData(herbName, index, herbAverageDataFrame):
     #print('dataFrame:\n', dataFrame)
     dataFrame.columns = ['MolID','MoleculeName','MW','AlogP','Hdon','Hacc','OB(%)','Caco-2','BBB','DL',	'FASA-','HL']
     dataFrame.set_index('MolID', inplace=True)
-    dataFrame.dropna(subset=['HL'], inplace = True)
+    #dataFrame.dropna(subset=['HL'], inplace = True)
     #print('dataFrame:\n', dataFrame)
-    dataFrame = dataFrame[(dataFrame['DL']>=0.18) & (dataFrame['OB(%)']>=40)].sort_values(by='OB(%)',ascending=False)
+    #dataFrame = dataFrame[(dataFrame['DL']>=0.18) & (dataFrame['OB(%)']>=40)].sort_values(by='OB(%)',ascending=False)
     '''
     columnMean = dataFrame[['MW','AlogP','Hdon','Hacc','OB(%)','Caco-2','BBB','DL','FASA-','HL']].mean()
     #columnMean['MolID'] = 'Average'
@@ -77,4 +77,3 @@ def filterData(herbName, index, herbAverageDataFrame):
 if __name__ == '__main__':
     HerbList = getHerbList(HerbPath)
     screenExcelFiles(inputPath, HerbList)
-    
