@@ -4,10 +4,10 @@ import pandas as pd
 import os
 import time
 
-inputPath = '/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Examples/SwissPrediction/Result3/'
-outputPath = '/Users/kevin/Desktop/program files/python/PythonModules/OS/Examples/ChangeFIleName/Output/Result3/'
+inputPath = '/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Examples/SwissPrediction/Result1_1/'
+outputPath = '/Users/kevin/Desktop/program files/python/PythonModules/OS/Examples/ChangeFIleName/Output/Result1_1/'
 SmilesPath = '/Users/kevin/Desktop/program files/python/PythonModules/OS/Examples/ChangeFIleName/Code/SwissSpider.xlsx'
-sheetName = 'Result3'
+sheetName = 'Result1_1'
 
 def getContents(SmilesPath):
     dataFrame = pd.read_excel(SmilesPath, sheet_name=sheetName)
@@ -20,14 +20,16 @@ def getContents(SmilesPath):
 
 def changeFileName(inputPath, ModuleIDList):
     os.chdir(inputPath)
-    files = filter(os.path.isfile, os.listdir(inputPath))
+    #files = filter(os.path.isfile, os.listdir(inputPath))
+    files = os.listdir(inputPath)
+    #files.remove(".DS_Store")
     filesList = [os.path.join(inputPath, f) for f in files] 
-    filesList.sort(key=lambda x:int(x.split('SwissTargetPrediction (')[1].split(').csv')[0]))
+    #filesList.sort(key=lambda x:int(x.split('SwissTargetPrediction (')[1].split(').csv')[0]))
     # add path to each file
-    #filesList.sort(key=lambda x: os.path.getmtime(x))
-    #print('filesList:\n', filesList)
+    filesList.sort(key=lambda x: os.path.getmtime(x))
+    print('filesList:\n', len(filesList))
     #newest_file = filesList[-1]
-
+    
     for ModuleID, fileName in zip(ModuleIDList, filesList):
         print(f'OldFileName{fileName} -- NewFileName{ModuleID}')
         os.rename(fileName, outputPath+ModuleID+".csv")
