@@ -3,3 +3,5 @@ Source
 *.xlsx
 *.TTF
 *.csv
+*.DS_Store
+*/.DS_Store

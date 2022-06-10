@@ -2,21 +2,29 @@ import pandas as pd
 import os
 import time
 
-inputPath = '/Users/kevin/Desktop/program files/python/PythonModules/Selenium/Examples/SwissPrediction/Result/'
-outputPath = '/Users/kevin/Desktop/program files/python/PythonModules/OS/Examples/ChangeFIleName/Output/Result/'
+inputPath = '/Users/kevin/Desktop/program files/python/PythonModules/OS/Examples/MatchFiles/T2DHerbs/'
+outputPath = '/Users/kevin/Desktop/program files/python/PythonModules/OS/Examples/MatchFiles/Output/'
 sheetName = ''
 
-def changeFileName(inputPath):
+def getallfile(inputPath):
     os.chdir(inputPath)
     #files = filter(os.path.isfile, os.listdir(inputPath))
     files = os.listdir(inputPath)
-    #files.remove(".DS_Store")
+    if '.DS_Store' in files: files.remove(".DS_Store")
     filesList = [os.path.join(inputPath, f) for f in files] 
-    #filesList.sort(key=lambda x:int(x.split('SwissTargetPrediction (')[1].split(').csv')[0]))
-    # add path to each file
-    filesList.sort(key=lambda x: os.path.getmtime(x))
-    print('filesList:\n', len(filesList))
-    #newest_file = filesList[-1]
+    for filepath in filesList:
+        if os.path.isdir(filepath):
+            getallfile(filepath)
+        # 如果不是文件夹，保存文件路径及文件名
+        elif os.path.isfile(filepath):
+            fileName = filepath.split('/')[-1]
+            herbname = filepath.split('/')[-2]
+            if fileName == 'MM symptom.csv':
+                print('filePath:\n', filepath)
+                Newdir=os.path.join(outputPath, herbname+'.csv')
+                os.rename(filepath, Newdir)#重命名
+                print(filepath+" has changed as "+Newdir)
+            #print('pwd:\n', ())
 
 if __name__ == '__main__':
-    changeFileName(inputPath)
+    getallfile(inputPath)
