@@ -3,7 +3,7 @@ import os
 import time
 
 inputPath = '/Users/kevin/Desktop/program files/python/PythonModules/OS/Examples/MatchFiles/T2DHerbs/'
-outputPath = '/Users/kevin/Desktop/program files/python/PythonModules/OS/Examples/MatchFiles/Output/'
+outputPath = '/Users/kevin/Desktop/program files/python/PythonModules/OS/Examples/MatchFiles/TCMSymptom/'
 sheetName = ''
 
 def getallfile(inputPath):
@@ -19,7 +19,7 @@ def getallfile(inputPath):
         elif os.path.isfile(filepath):
             fileName = filepath.split('/')[-1]
             herbname = filepath.split('/')[-2]
-            if fileName == 'MM symptom.csv':
+            if fileName == 'TCM symptom.csv':
                 print('filePath:\n', filepath)
                 Newdir=os.path.join(outputPath, herbname+'.csv')
                 os.rename(filepath, Newdir)#重命名
