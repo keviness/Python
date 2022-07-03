@@ -142,25 +142,3 @@ Python作为一个容易上手，简单方便的编程语言，第三方的优�
  **资源推荐** ：[https://www.**zhihu.com/question/2596**0850/answer/330772593](https://www.zhihu.com/question/25960850/answer/330772593)
 
 Python是一种非常有趣且有益的语言，我认为只要找到合适的动机，任何人都可以熟练掌握它。但是要记住的是，如果你只想着凭借python去找一份工作的话，不是不行，但是很难。python这种语言更适合已经有一份工作的人，多学一个技能。
-
-如果你能坚持看到这里，那么就去学吧，去学不被定义的python，从最简单也是最直观的数据分析学起来吧，并且试着从知乎出品的数据分析课开始吧。
-
-[![](https://pic3.zhimg.com/v2-840e50b732c458a138350738922da9ee_720w.jpg?source=b555e01d)训练营知乎数据分析3天实战训练营「开课」-0704作者 知乎研职在线**¥0.10**去查看](https://api.zhihu.com/poisson-marketing/recommendation/url/a5751812c88887a3f99e820814340869)
-
-编辑于 2022-06-02 05:04
-
-「真诚赞赏，手留余香」
-
-赞赏
-
-还没有人赞赏，快来当第一个赞赏的人吧！
-
-[Python](https://www.zhihu.com/topic/19552832)
-
-[编程](https://www.zhihu.com/topic/19554298)
-
-[GUI设计](https://www.zhihu.com/topic/19703816)
-
-赞同 35122 条评论分享
-
-喜欢收藏
