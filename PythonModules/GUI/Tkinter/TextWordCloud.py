@@ -262,5 +262,5 @@ textbook.bind("<Button-3>", showpopmenu)
 win.protocol("WM_DELETE_WINDOW", window_quit)
 
 win.mainloop()
-print("hello")
+#print("hello")
 #time.sleep(200)
