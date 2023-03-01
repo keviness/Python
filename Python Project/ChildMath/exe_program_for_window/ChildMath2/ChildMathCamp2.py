@@ -16,7 +16,6 @@ import os
 def WelcomeAndPraise(welcome_flag, score):
     praw = tk.Tk()
     praw.title("评语板")
-
     
     if welcome_flag==0:
         praw.title("评语板")
@@ -197,7 +196,6 @@ def MathTypeChose():
                 return 0
         master.destroy()
 
-
     def ExitGui():
         master.destroy()
         sys.exit(0) 
@@ -328,7 +326,6 @@ def GenerateMathProblem():
             #prob_tuple = (prob, prob_result)   
             #print (prob, prob_result)
 
-        
         ## 有三个操作数
         elif Ret_opera_num == 3:
             #gen_types = []
@@ -479,7 +476,6 @@ def GenerateAllProblem(problem_number):
     return problem_list
 
 
-
 #************************************
 # Function: ProblemWin()
 #
@@ -493,7 +489,7 @@ def ProblemWin(problem_list):
 
     sw       = prowin.winfo_screenwidth()
     sh       = prowin.winfo_screenheight()
-    (ww, hh) = (460, 670)
+    (ww, hh) = (360, 670)
     (x, y)   = ((sw - ww)/2,(sh - hh)/2) 
     prowin.geometry("%dx%d+%d+%d"%(ww,hh,x,y))
     
@@ -670,7 +666,7 @@ def MathScoreBoard(answer_list):
         lbl = tk.Tk()
         sw       = lbl.winfo_screenwidth()
         sh       = lbl.winfo_screenheight()
-        (ww, hh) = (841, 721)
+        (ww, hh) = (920, 730)
         (x, y)   = ((sw - ww)/2,(sh - hh)/2) 
         lbl.geometry("%dx%d+%d+%d"%(ww,hh,x,y))
        
@@ -771,8 +767,6 @@ def MathScoreBoard(answer_list):
     score_win.mainloop()
 
 
-
-
 ############################################ Main #################################################
 if __name__ == "__main__":
     
@@ -803,7 +797,6 @@ if __name__ == "__main__":
     #*********************************************************************************************#
     #rd.seed(int(sys.argv[1]))
    
-
     WelcomeAndPraise(welcome_flag=1, score=0)
     MathTypeChose()  ## give the value : 
 

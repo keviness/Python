@@ -28,7 +28,7 @@ def cutSetence(filepath, keywordList):
             cutResultStr='NaN'
         else:
             #if len(singWordList)>1: singWordList.remove('\n')
-            cutResultStr = singWordList[-1]
+            cutResultStr = singWordList[0]
             
         cutResultArray.append(cutResultStr)
     #print('cutResultArray:\n', cutResultArray)
@@ -50,11 +50,14 @@ def GetHerbInfo(inputPath, wordList):
         resultCutArray = np.array(resultArray)
         dataFrame = pd.DataFrame({'Herb':resultCutArray[:,0],
                               '性味与归经':resultCutArray[:,1],
-                              '功能与主治':resultCutArray[:,2]})
+                              '功能与主治':resultCutArray[:,2],
+                              '性状':resultCutArray[:,3],
+                              '性味':resultCutArray[:,4],
+                              '性昧与归经':resultCutArray[:,5]})
         dataFrame.to_excel(outputPath+'2015ChineseHerbsInfo.xlsx', index=False)
         print(f'Write {herbName} to excel file successfully!')
         i += 1
         
 if __name__ == '__main__':
-    wordList = ['性味与归经','功能与主治']
+    wordList = ['性味与归经','功能与主治','性状','性味','性昧与归经']
     GetHerbInfo(inputPath, wordList)

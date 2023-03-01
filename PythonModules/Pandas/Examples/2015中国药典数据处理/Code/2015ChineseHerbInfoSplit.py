@@ -13,11 +13,12 @@ def getData(path):
     #print("sourceDataFrame:\n", sourceDataFrame)
     HerbsArray = sourceDataFrame["Herb"].values
     contentArray = sourceDataFrame["功能与主治"].values
+    XinZhuangArray = sourceDataFrame["性状"].values
     #print("sentences:\n", contentArray)
     PropertyMediaArray = sourceDataFrame['性味与归经'].values
     #print("PropertyMediaArray:\n", PropertyMediaArray)
     PropertyMediaArray = [e[0:-1].strip() for e in PropertyMediaArray]
-    #print("MediaArray:\n", PropertyMediaArray)
+    #print("PropertyMediaArray:\n", PropertyMediaArray)
     PropertyArray = np.array([e.split('。')[0] for e in PropertyMediaArray])
     #print("PropertyArray:\n", PropertyArray)
     MediaArray = []
@@ -28,7 +29,7 @@ def getData(path):
         MediaArray.append(estr)
     MediaArray = np.array(MediaArray)
     print("MediaArray:\n", MediaArray)
-    return HerbsArray, PropertyMediaArray, PropertyArray, MediaArray,contentArray
+    return HerbsArray, PropertyMediaArray, PropertyArray, MediaArray,contentArray, XinZhuangArray
 
 def splitPropertyFlavour(PropertyArray):
     FlavourArray = [e.split('，')[0] for e in PropertyArray]
@@ -67,7 +68,7 @@ def splitFunctionZhuZhi(contentArray):
     print("ZhuZhiArray:\n", ZhuZhiArray)
     return FunctionArray, ZhuZhiArray
 
-def PropertyDataFrame(HerbsArray,PropertyMediaArray,HotColdArray, FlavourArray, toxicityArray, MediaArray,FunctionArray, ZhuZhiArray,contentArray):
+def PropertyDataFrame(HerbsArray,PropertyMediaArray,HotColdArray, FlavourArray, toxicityArray, MediaArray,FunctionArray, ZhuZhiArray,contentArray,XinZhuangArray):
     dataFrame = pd.DataFrame({'Herbs':HerbsArray,
                               'Property&Meridian&Toxicity':PropertyMediaArray,
                               'Property':HotColdArray,
@@ -76,7 +77,8 @@ def PropertyDataFrame(HerbsArray,PropertyMediaArray,HotColdArray, FlavourArray, 
                               'Meridian':MediaArray,
                               'Functions':FunctionArray,
                               'Indications':ZhuZhiArray,
-                              'Functions and Indications':contentArray})
+                              'Functions and Indications':contentArray,
+                              'XinZhuang':XinZhuangArray})
     dataFrame.to_excel(outputPath+'2015HerbsProcessResult.xlsx',index=False)
     print('write to Excel file successfully!')
 
@@ -98,9 +100,9 @@ def getVector(vocabList, inputSetArray):
     return dataFrame  # 返回文档向量
     
 if __name__ == '__main__':
-    HerbsArray, PropertyMediaArray, PropertyArray, MediaArray,contentArray = getData(path)
+    HerbsArray, PropertyMediaArray, PropertyArray, MediaArray,contentArray,XinZhuangArray = getData(path)
     HotColdArray, FlavourArray, toxicityArray = splitPropertyFlavour(PropertyArray)
     FunctionArray, ZhuZhiArray = splitFunctionZhuZhi(contentArray)
-    PropertyDataFrame(HerbsArray, PropertyMediaArray, HotColdArray, FlavourArray, toxicityArray, MediaArray,FunctionArray, ZhuZhiArray,contentArray)
+    PropertyDataFrame(HerbsArray, PropertyMediaArray, HotColdArray, FlavourArray, toxicityArray, MediaArray,FunctionArray, ZhuZhiArray,contentArray,XinZhuangArray)
     
     
