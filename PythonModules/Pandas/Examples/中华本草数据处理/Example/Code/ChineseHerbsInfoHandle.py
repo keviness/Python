@@ -16,7 +16,7 @@ def cutSetence(filepath, keywordList):
         singWordList = []
         for line in lines:
             if keyword in line:
-                lineList = line.split('【'+keyword+'】')
+                lineList = line.split(keyword)
                 if len(lineList)<=1:lineStr = 'NaN'
                 else:lineStr = lineList[1][0:-1]
                 singWordList.append(lineStr)
@@ -57,5 +57,5 @@ def GetHerbInfo(inputPath, wordList):
         i += 1
         
 if __name__ == '__main__':
-    wordList = ['性味','归经','功能主治']
+    wordList = ['【性味】','【归经】','【功能主治】','药材基源','【原形态】']
     GetHerbInfo(inputPath, wordList)

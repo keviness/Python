@@ -31,6 +31,8 @@ def cutSetence(filepath, keywordList):
             cutResultStr = singWordList[0]
             
         cutResultArray.append(cutResultStr)
+    cutResultArray.append(lines[0])
+    #cutResultArray.insert(0, lines[0])
     #print('cutResultArray:\n', cutResultArray)
     return cutResultArray
 
@@ -53,11 +55,13 @@ def GetHerbInfo(inputPath, wordList):
                               '功能与主治':resultCutArray[:,2],
                               '性状':resultCutArray[:,3],
                               '性味':resultCutArray[:,4],
-                              '性昧与归经':resultCutArray[:,5]})
-        dataFrame.to_excel(outputPath+'2015ChineseHerbsInfo.xlsx', index=False)
+                              '性昧与归经':resultCutArray[:,5],
+                              '基原':resultCutArray[:,6]})
+        dataFrame.to_excel(outputPath+'2020基原ChineseHerbsInfo.xlsx', index=False)
         print(f'Write {herbName} to excel file successfully!')
         i += 1
         
 if __name__ == '__main__':
     wordList = ['性味与归经','功能与主治','性状','性味','性昧与归经']
     GetHerbInfo(inputPath, wordList)
+    
